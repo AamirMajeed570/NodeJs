@@ -1,12 +1,22 @@
 {
   "name": "express",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Learning Express Framework",
+  "main": "Index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Aamir Majeed Khan",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AamirMajeed570"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.0"
+  }
 }
