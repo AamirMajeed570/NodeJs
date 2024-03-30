@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const { router } = require('./routes/product')
 const app = express()
 const productRouter = express.Router()
+
 // bodyParser
 app.use(express.json())
 app.use(morgan('default'))
