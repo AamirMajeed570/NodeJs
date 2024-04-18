@@ -21,7 +21,7 @@ const userCtrlRegistration = async (req, res) => {
     email,
     password: hashedPassword
   })
-  // console.log(req.body)
+  // ! console.log(req.body)
   // ! Send The Response
   res.json({
     username: userCreate.username,
@@ -31,16 +31,44 @@ const userCtrlRegistration = async (req, res) => {
 }
 const userCtrlLogin = async (req, res) => {
     // ! Check If User Exists
-
+    const {email,password} = req.body;
+    const user = await User.findOne({email});
+    if(!user){
+        throw new Error("Invalid  Credentials")
+    }
     // ! Check If Password is Valid
-
+    const isMatch = await bcrypt.compare(password,user.password)
+    if(!isMatch){
+        throw new Error("Invalid  Credentials")
+    }
     // ! Generate The Token
-    
+    const token = jwt.sign({id:user._id},"anyKey",{expiresIn:"30d"});
     // ! Send the response
+    res.json({
+        message:"Login Success",
+        token,
+        id:user._id,
+        email:user.email,
+        username:user.username,
+    })
 }
 
-const userCtrlProfile = async (req, res) => {}
+const userCtrlProfile = async (req, res) => {
+    try {
+        // Find the user by ID, excluding the password field
+        const user = await User.findById(req.user).select("-password");
+        
+        // Send the user object as a JSON response
+        res.json({ user });
+    } catch (error) {
+        // Handle any errors that occur during database operations
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
 
 module.exports = {
-  userCtrlRegistration
+  userCtrlRegistration,
+  userCtrlLogin,
+  userCtrlProfile
 }
